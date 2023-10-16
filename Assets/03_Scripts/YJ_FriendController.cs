@@ -9,9 +9,6 @@ public class FriendController : MonoBehaviour
     GameObject _player;
 
     [SerializeField]
-    Vector3 _delta;     // _player와 유지할 거리
-
-    [SerializeField]
     float _speed = 12.0f;
 
     [SerializeField]
@@ -20,19 +17,28 @@ public class FriendController : MonoBehaviour
     [SerializeField]
     GameObject _goalPanel;
 
-    Queue<GameObject> _targetObj = new Queue<GameObject>();   // 목표 위치에 있는 GameObject들    
-    Vector3 _currentDestPos;
+    public Queue<GameObject> _targetObj = new Queue<GameObject>();   // 목표 위치에 있는 GameObject들    
+    public Vector3 _currentDestPos;
+
+    [SerializeField]
+    GameObject _eventTargetObj;
 
     bool _isFirstUI = true;
     bool _isLastUI = false;
 
     FriendState _state = FriendState.Idle;
 
+    // including cross
+    int _targetCount = 0;
+
+
+
     public enum FriendState
     {
         End,
         Idle,
         Moving,
+        Cross,
         Max
     }
 
@@ -83,18 +89,37 @@ public class FriendController : MonoBehaviour
         anim.SetFloat("speed", _speed);
     }
 
+    bool isNextTargetCrossWalk()
+    {
+        if (_targetCount == 2)
+            return true;
+        return false;
+    }
+
     void UpdateIdle()
     {
         // Animation
         Animator anim = GetComponent<Animator>();
         anim.SetFloat("speed", 0);
 
+        GameObject go = GameObject.Find("@CrossController");
+
+        // game playing or gameover => player cross ing...
+        CrossState crossState = go.GetComponent<CrossController>()._crossState;
+        if (crossState == CrossState.Playing || crossState == CrossState.GameOver)
+            return;
+
+        // dialog end
         if (_myCanvas.GetComponent<UI_Dialog>()._moveTrigger == true)
         {
             ChangeTargetPos();
 
             anim.SetFloat("speed", _speed);
-            _state = FriendState.Moving;            
+            _state = FriendState.Moving;
+
+            // dialog end but next Target is CrossWalk
+            if (isNextTargetCrossWalk())
+                _state = FriendState.Cross;
         }
     }
 
@@ -117,6 +142,9 @@ public class FriendController : MonoBehaviour
 
     public void ChangeTargetPos()    
     {
+        // target 수 확인을 위해 증가
+        _targetCount++;
+
         // 다음 타겟이 없을 때
         if (_targetObj.Count == 1)
             return;
@@ -128,6 +156,13 @@ public class FriendController : MonoBehaviour
             return;
         }
 
+        // 다음 타겟이 CrossWalk일때, target을 crossbucket 내부에 있는 걸로 바꾸기
+        if (isNextTargetCrossWalk())
+        {
+            _currentDestPos = _eventTargetObj.transform.position;
+            return;
+        }
+
         // target 바꾸기
         _targetObj.Dequeue();
         _currentDestPos = _targetObj.Peek().transform.position;
@@ -135,6 +170,37 @@ public class FriendController : MonoBehaviour
         // 마지막 위치에 도달 시
         if (_targetObj.Count == 1)
             _isLastUI = true;               // UI를 표시하지 않음
+    }
+
+    private void UpdateCross()
+    {
+        // 이벤트 위치 도달시, Cross 상태로 변경됨
+        // todo : Player 상태를 제어하는 구문 필요, 이를 위해 일단 상태 정의
+        Vector3 eventDir = _currentDestPos - transform.position;
+
+        // 목표 도달시,
+        if (eventDir.magnitude < 0.01f)
+        {
+            // GameStart
+            GameObject go = GameObject.Find("@CrossController");
+            go.GetComponent<CrossController>().Init();
+            go.GetComponent<CrossController>()._crossState = CrossState.Playing;
+
+            // Player를 향해 회전
+            transform.LookAt(_player.transform);
+
+            // state 변경
+            _state = FriendState.Idle;
+
+            return;
+        }
+
+        float moveDist = Mathf.Clamp(_speed * Time.deltaTime, 0, eventDir.magnitude);
+        transform.position += eventDir.normalized * moveDist;
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(eventDir), 20 * Time.deltaTime);
+ 
+        Animator anim = GetComponent<Animator>();
+        anim.SetFloat("speed", _speed);
     }
 
     private void Awake()
@@ -149,7 +215,8 @@ public class FriendController : MonoBehaviour
             _targetObj.Enqueue(_targetParent.transform.GetChild(i).gameObject);
         }
 
-        _currentDestPos = _targetObj.Peek().transform.position;
+        // current pos
+        _currentDestPos = _targetObj.Peek().transform.position;        
 
         _state = FriendState.Idle;
     }
@@ -169,6 +236,9 @@ public class FriendController : MonoBehaviour
                 break;
             case FriendState.Moving:
                 UpdateMoving();
+                break;
+            case FriendState.Cross:
+                UpdateCross();
                 break;
         }
     }

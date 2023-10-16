@@ -8,6 +8,8 @@ public class Define
     {
         Click,
         Drag,
+        Up,
+        Down,
     }
 
     public enum CameraMode

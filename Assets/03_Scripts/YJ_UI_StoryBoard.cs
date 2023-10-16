@@ -16,8 +16,10 @@ public class UI_StoryBoard
         });
 
         _allMessageQueue.Enqueue(new string[] {
-            "조심해서 가지 않으면 위험해!",
+            "횡단보도에서는 조심해서 가지 않으면 위험해!",
             "횡단보도 앞에서는 안전하게 손을 들고 가자",
+            "오늘은 직접 손을 드는 대신, 농구공을 잡고 갈거야",
+            "나는 먼저 가있을게",
         });
 
         _allMessageQueue.Enqueue(new string[] {

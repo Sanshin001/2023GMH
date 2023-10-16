@@ -45,22 +45,12 @@ public class UI_Base : MonoBehaviour
     public static void AddUIEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.Click)
     {
         UI_EventHandler evt = Util.GetOrAddComponent<UI_EventHandler>(go);
-        
-        /*bool gripButtonState;
-        if (_device.TryGetFeatureValue(CommonUsages.gripButton, out gripButtonState))
-        {
-
-        }*/
 
         switch (type)
         {
             case Define.UIEvent.Click:
                 evt.OnClickHandler -= action;
                 evt.OnClickHandler += action;
-                break;
-            case Define.UIEvent.Drag:
-                evt.OnDragHandler -= action;
-                evt.OnDragHandler += action;
                 break;
         }
     }
