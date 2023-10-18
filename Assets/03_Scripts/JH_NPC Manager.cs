@@ -16,13 +16,12 @@ public class JH_NPCManager : MonoBehaviour
 
     void Start()
     {
-
+        ami.SetBool("IsRun", true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        ami.SetBool("IsRun", true);
         MoveToDestination();
     }
 
@@ -43,7 +42,6 @@ public class JH_NPCManager : MonoBehaviour
         {
             float fraction = (Time.time - startTime) / journeyLength;
             transform.position = Vector3.Lerp(startPoint.position, endPoint.position, fraction);
-            ami.SetBool("IsRun", false);
             yield return null;
         }
 
