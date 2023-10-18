@@ -22,6 +22,7 @@ public class JH_NPCManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        ami.SetBool("IsRun", true);
         MoveToDestination();
     }
 
@@ -29,7 +30,6 @@ public class JH_NPCManager : MonoBehaviour
     {
         isMoving = true;
         //달리는 모션으로 변경
-        ami.SetBool("IsRun", true);
         StartCoroutine(MoveCoroutine());
     }
 
