@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/01_Scenes/StageOneScene.unity
     guid: 7788432e284aecf44942891ad7613c9a
+  - enabled: 1
+    path: Assets/01_Scenes/EscapeScene.unity
+    guid: 4f613bbe3c5f5a142b849b007192fb00
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: f07b7b62458ca544a84f5ab89fed8667, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 9ec8eb3e5b0ce2a4f8f4ba901c777404, type: 2}
