@@ -5,16 +5,21 @@ using UnityEngine;
 public class YJ_RangeInCrossWalk : MonoBehaviour
 {
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        GameObject go = GameObject.Find("@CrossController");
         if (other.gameObject.CompareTag("Player"))
+        {
+            GameObject go = GameObject.Find("@CrossController");
             go.GetComponent<CrossController>()._isInCrosswalk = true;
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        GameObject go = GameObject.Find("@CrossController");
-        go.GetComponent<CrossController>()._isInCrosswalk = false;
+        if (other.gameObject.CompareTag("Player"))
+        {
+            GameObject go = GameObject.Find("@CrossController");
+            go.GetComponent<CrossController>()._isInCrosswalk = false;
+        }
     }
 }

@@ -8,6 +8,7 @@ TagManager:
   - trafficArrow
   - RedLightArrow
   - GreenLightArrow
+  - TargetCar
   layers:
   - Default
   - TransparentFX

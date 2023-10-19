@@ -11,12 +11,12 @@ public class UI_Anim : MonoBehaviour
     public static IEnumerator Fade(float start, float end, CanvasGroup cg, float fadeTime = 0.5f)
     {
         float current = 0;
-        float percent = 0;
+        float percent;
 
-        while (percent < 1)
+        while (current < fadeTime)
         {
             current += Time.deltaTime;
-            percent = current / fadeTime;
+            percent = (1 - Mathf.Cos((current * Mathf.PI) / 2));
 
             cg.alpha = Mathf.Lerp(start, end, percent);
 

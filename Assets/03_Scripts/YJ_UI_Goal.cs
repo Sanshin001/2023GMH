@@ -25,11 +25,14 @@ public class UI_Goal : UI_Base
     Vector3 _size;
 
     string[] _goalMessages = {
-        "목표 : 학교로 이동하기",
-        "농구공을 잡고 횡단보도를 건너자\n자동차에 부딪히면 다시 시작",
-        "불법 주정차를 계속 눌러 없애자",
+        "목표 : 친구를 따라 학교로 이동하기",
+        "왼쪽 오른쪽을 살피며 손 버튼을 누르자",
+        "떠다니는 손을 잡고 횡단보도를 건너자\n농구공을 놓으면 다시 시작",
+        "친구를 따라 학교로 이동하자",
+        "불법 주정차를 눌러 신고하자",
+        "왼쪽 오른쪽을 살피며 손 버튼을 누르자",
         "목표 : 횡단보도 안전하게 건너기",
-        "계속 학교로 이동",
+        "친구를 따라 빛나는 지점까지 이동하자",
     };
     Queue<string> _goalBox = new Queue<string>();
 
@@ -99,14 +102,14 @@ public class UI_Goal : UI_Base
     {
         float animTime;
 
-        animTime = 2.0f;
+        animTime = 1.0f;
 
         // Fade In
         IEnumerator _fadeIn = UI_Anim.Fade(1, 0, Get<CanvasGroup>((int)CanvasGroups.AlwaysGoal), animTime);
         yield return StartCoroutine(_fadeIn);
 
         // Go Right
-        Vector2 willbePos = Vector2.left * 0.9f + Vector2.up * 0.6f;
+        Vector2 willbePos = Vector2.left * 0.2f - Vector2.up * 0.05f;
         localPos.anchoredPosition = willbePos;
 
         // Size Down

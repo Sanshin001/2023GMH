@@ -31,15 +31,38 @@ public class CrossController : MonoBehaviour
     GameObject _player;
     GameObject _friend;
     GameObject _playerCanvas;
-    GameObject[] _greenLightArrows;
-    GameObject[] _redLightArrows;
+    GameObject _crossCanvasParent;
 
-    int _crossNum;
+    ArrayList _greenLightArrows;
+    ArrayList _redLightArrows;
+
+    public int _crossNum = 0;
 
     // CrossOption을 갈아끼우기 위해 부모 오브젝트를 가져옴
     GameObject _crossOptions;
     public Vector3 _ballPos;
     Vector3 _playerPos;
+
+    [SerializeField]
+    Material _greenOnMt;
+    [SerializeField]
+    Material _greenOffMt;
+    [SerializeField]
+    Material _redOnMt;
+    [SerializeField]
+    Material _redOffMt;
+
+    private void InitArrows(GameObject parent, ArrayList arrowList)
+    {
+        // 1. target 부모 받아오기
+        GameObject _parent = parent;
+
+        // 2. 이름 순서대로 넣기
+        for (int i = _parent.transform.childCount - 1; i >= 0 ; i--)
+        {
+            arrowList.Add(_parent.transform.GetChild(i).gameObject);
+        }
+    }
 
     private void Awake()
     {
@@ -47,10 +70,14 @@ public class CrossController : MonoBehaviour
         _friend = GameObject.Find("Friend");
         _player = GameObject.Find("Player");
         _playerCanvas = GameObject.Find("PlayerCanvas");
+        _crossCanvasParent = GameObject.Find("Player/PlayerCanvas/TrafficLightCanvas/TrafficLightInUI");
         _crossOptions = GameObject.Find("CrossOptions");
 
-        _greenLightArrows = GameObject.FindGameObjectsWithTag("GreenLightArrow");
-        _redLightArrows = GameObject.FindGameObjectsWithTag("RedLightArrow");
+        _greenLightArrows = new ArrayList();
+        _redLightArrows = new ArrayList();
+
+        InitArrows(_crossCanvasParent.transform.GetChild(0).gameObject, _greenLightArrows);
+        InitArrows(_crossCanvasParent.transform.GetChild(1).gameObject, _redLightArrows);
     }
 
     private void Update()
@@ -76,41 +103,43 @@ public class CrossController : MonoBehaviour
     // num만 업데이트하면 관련 오브젝트는 가져다가 씀
     public void Init()
     {
-        // GameObject가 비활성화되어있는상태이면, 값을 가져올수없음
-        // 따라서 전부 활성화
-        var valList = Enum.GetValues(typeof(CrossOption));
-        foreach (var val in valList)
-        {
-            FindCrossObj((int)val).SetActive(true);
-        }
+        // Cross 관련 가장 상위 Canvas 활성화
+        _crossCanvasParent.SetActive(true);
 
-        // Player 초기 위치 저장
-        _playerPos = _player.transform.position;
+        // Ball, BallTarget 활성화
+        FindCrossObj((int)CrossOption.BallBucket).SetActive(true);
+        FindCrossObj((int)CrossOption.BallTargetBucket).SetActive(true);
 
         // CrossState에 따라 ball 위치를 변화시킬 것이므로 ball 초기 위치도 저장
         _ballPos = FindCrossObj((int)CrossOption.BallBucket).transform.position;
 
-        // 초기화 완료시 state 변경
-        _crossState = CrossState.Playing;
+        // Player 초기 위치 저장
+        _playerPos = _player.transform.position;
 
         // barrier 위치를 player 뒤로 조정
         GameObject ball = FindCrossObj((int)CrossOption.BallBucket);
         if (ball.GetComponent<BallController>()._isVertical == false)
             FindCrossObj((int)CrossOption.CrossBarriers).transform.position = _player.transform.position + Vector3.forward * 5;
+        else
+            FindCrossObj((int)CrossOption.CrossBarriers).transform.position = _player.transform.position + Vector3.forward * 5; // todo : 위치 조정
+
+        // 초기화 완료시 state 변경
+        _crossState = CrossState.Playing;
 
         StartCoroutine(UpdateTrafficLight());
     }
 
     private GameObject FindCrossObj(int _num)
     {
-        return _crossOptions.transform.GetChild(_num).transform.GetChild(_crossNum).gameObject;
+        GameObject go = _crossOptions.transform.GetChild(_num).transform.GetChild(_crossNum).gameObject;
+        if (go == null) return null;
+        return go;
     }
 
     public bool _isInCrosswalk = false;
     private void UpdatePlaying()
     {
         // Clear 조건 : Player가 Friend 근처에 도달
-        Debug.Log(Vector3.Distance(_friend.transform.position, _player.transform.position));
         if (Vector3.Distance(_friend.transform.position, _player.transform.position) <= 3.0f)
             _crossState = CrossState.Clear;
 
@@ -119,22 +148,25 @@ public class CrossController : MonoBehaviour
             return;
 
         // 빨간불에 횡단보도에 있으면 GameOver
-        if (_isRedLight)
+        if (_isRedLight && _isInCrosswalk)
             _crossState = CrossState.GameOver;
 
         // 횡단보도를 건널 때, 농구공을 잡지 않으면 GameOver
         GameObject ball = FindCrossObj((int)CrossOption.BallBucket);
         bool isGrabbed = ball.GetComponent<BallController>()._isGrabbed;
-        if (!isGrabbed)
+        if (!isGrabbed && _isInCrosswalk)
             _crossState = CrossState.GameOver;
     }
 
 
-    public bool _isRedLight = true;
+    public bool _isRedLight = false;
+    IEnumerator _playingAnim;
     IEnumerator UpdateTrafficLight()
     {
-        int time = 5;       // todo : time이 아니라 뭔가 종료조건이 있어야함
-        while (time >= 0)
+        GameObject green = FindCrossObj((int)CrossOption.TrafficLightBucket).transform.GetChild(0).gameObject; // 0번 = GreenLight
+        GameObject red = FindCrossObj((int)CrossOption.TrafficLightBucket).transform.GetChild(1).gameObject; // 1번 = RedLight
+
+        while (true)
         {
             // green light init : Active GreenLight, Deactive RedLight
             foreach (GameObject go in _greenLightArrows)
@@ -142,10 +174,19 @@ public class CrossController : MonoBehaviour
             foreach (GameObject go in _redLightArrows)
                 go.SetActive(false);
 
-            // ball pos
-            FindCrossObj((int)CrossOption.BallBucket).transform.position = _ballPos;
+            green.GetComponent<MeshRenderer>().material = _greenOnMt;
+            red.GetComponent<MeshRenderer>().material = _redOffMt;
 
-            yield return StartCoroutine(ChangeTrafficLight(_greenLightArrows, true));
+            // ball pos
+            FindCrossObj((int)CrossOption.BallBucket).SetActive(true);
+            FindCrossObj((int)CrossOption.BallBucket).transform.position = _ballPos;
+            FindCrossObj((int)CrossOption.BallBucket).GetComponent<BallController>().time = 10.0f;
+
+            // ball target active
+            FindCrossObj((int)CrossOption.BallTargetBucket).SetActive(true);
+
+            _playingAnim = ChangeTrafficLight(_greenLightArrows, true);
+            yield return StartCoroutine(_playingAnim);
 
             // red light init : Active RedLight, Deactive GreenLight
             foreach (GameObject go in _greenLightArrows)
@@ -153,25 +194,30 @@ public class CrossController : MonoBehaviour
             foreach (GameObject go in _redLightArrows)
                 go.SetActive(true);
 
+            green.GetComponent<MeshRenderer>().material = _greenOffMt;
+            red.GetComponent<MeshRenderer>().material = _redOnMt;
+
             // ball pos
             FindCrossObj((int)CrossOption.BallBucket).transform.position = _ballPos;
+            FindCrossObj((int)CrossOption.BallBucket).SetActive(false);            
+            // ball target deactive
+            FindCrossObj((int)CrossOption.BallTargetBucket).SetActive(false);
 
-            yield return StartCoroutine(ChangeTrafficLight(_redLightArrows, false));
-
-            time--;
+            _playingAnim = ChangeTrafficLight(_redLightArrows, false);
+            yield return StartCoroutine(_playingAnim);
         }
-        yield break;
     }
 
-    IEnumerator ChangeTrafficLight(GameObject[] trafficLightArrows, bool isGreenLight)
+    IEnumerator ChangeTrafficLight(ArrayList trafficLightArrows, bool isGreenLight)
     {
         int time = 0;
-        int maxInt = trafficLightArrows.Length - 1;
+        int maxTime = trafficLightArrows.Count - 1;
 
-        while (time <= maxInt)           // 4-> 1 3-> 2 2-> 3 1-> 4 0-> 5
+        while (time <= maxTime)           // 4-> 1 3-> 2 2-> 3 1-> 4 0-> 5
         {
             yield return new WaitForSeconds(1.0f);          // todo: change this seconds
-            trafficLightArrows[time].SetActive(false);
+            GameObject go = (GameObject) trafficLightArrows[time];
+            go.SetActive(false);
             time++;
         }
 
@@ -189,9 +235,13 @@ public class CrossController : MonoBehaviour
         string reason = "Error";
         GameObject ball = FindCrossObj((int)CrossOption.BallBucket);
         bool isGrabbed = ball.GetComponent<BallController>()._isGrabbed;
+
         if (isGrabbed == false)   // 공을 잡지 않았을 때
-            reason = "공을 잡아야 횡단보도를 건널 수 있어!";
-        if (_isInCrosswalk)     // 빨간불에 횡단보도에 있었을 때
+            reason = "손을 잡아야 횡단보도를 건널 수 있어!";
+
+        // 위치가 초기화 되기 전에, _isInCrosswalk로 들어왔을 경우를 대비해서, 
+        // 조건을 _isInCrosswalk가 아니라 _isRedLight로 변경
+        if (_isRedLight)     // 빨간불에 횡단보도에 있었을 때
             reason = "빨간불일때는 횡단보도를 건널 수 없어!";
 
         string title = $"{reason}";
@@ -209,6 +259,7 @@ public class CrossController : MonoBehaviour
         ball.GetComponent<BallController>().time = 10.0f;
 
         StopCoroutine(UpdateTrafficLight());
+
         _isInCrosswalk = false;
 
         // Playing 상태로 전환
@@ -219,14 +270,24 @@ public class CrossController : MonoBehaviour
     {
         // 신호등 코루틴 종료
         StopCoroutine(UpdateTrafficLight());
+        StopCoroutine(_playingAnim);
+
+        // 공 / 공타겟 / 벽 비활성화
+        FindCrossObj((int)CrossOption.BallBucket).SetActive(false);
+        FindCrossObj((int)CrossOption.BallTargetBucket).SetActive(false);
+        FindCrossObj((int)CrossOption.CrossBarriers).SetActive(false);
 
         // 신호등 UI 비활성화
-        GameObject go = GameObject.Find("PlayerCanvas/TrafficLightInUI");
+        GameObject go = GameObject.Find("PlayerCanvas/TrafficLightCanvas/TrafficLightInUI");
         go.SetActive(false);
 
-        // Effect 넣기 & Panel로 표시
+        // Panel로 표시
         string title = "Clear!\n횡단보도를 무사히 건넜다!";
         Util.FindChild<UI_Goal>(_playerCanvas, null, true).Init(title);
+
+        // cross num 증가
+        _crossNum++;
+        Debug.Log(_crossNum);
 
         // 뭔가 효과가 전부 끝나면 Rest 상태로 전환
         _crossState = CrossState.Rest;
@@ -234,7 +295,7 @@ public class CrossController : MonoBehaviour
 
     private void UpdateRest()
     {
-        // doing Nothing
+        // doing nothing in this time
     }
 }
 
