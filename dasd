@@ -1,0 +1,20 @@
+[33m68f5da40[m[33m ([m[1;36mHEAD -> [m[1;32mEscapeScene[m[33m, [m[1;31morigin/EscapeScene[m[33m)[m HEAD@{0}: commit: asd
+[33mab3bde4b[m HEAD@{1}: reset: moving to ab3bde4bd335607820bcfb997e4450a1d5b94393
+[33maa5e805c[m HEAD@{2}: revert: Revert "Merge remote-tracking branch 'origin/릴리즈버전' into EscapeScene"
+[33mab3bde4b[m HEAD@{3}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33m9655ab13[m[33m ([m[1;32mㄹㅇ호[m[33m)[m HEAD@{4}: reset: moving to HEAD
+[33m9655ab13[m[33m ([m[1;32mㄹㅇ호[m[33m)[m HEAD@{5}: reset: moving to 9655ab13aa6eff492b95a5061c105596511b9306
+[33ma5052ced[m HEAD@{6}: revert: Revert "음성과 오디오"
+[33m9655ab13[m[33m ([m[1;32mㄹㅇ호[m[33m)[m HEAD@{7}: reset: moving to 9655ab13aa6eff492b95a5061c105596511b9306
+[33m20e37717[m HEAD@{8}: commit (amend): Merge remote-tracking branch 'origin/릴리즈버전' into EscapeScene
+[33mab3bde4b[m HEAD@{9}: checkout: moving from 릴리즈버전 to EscapeScene
+[33m5f078ac4[m[33m ([m[1;31morigin/릴리즈버전[m[33m, [m[1;31morigin/StageOneScene[m[33m, [m[1;32m릴리즈버전[m[33m)[m HEAD@{10}: checkout: moving from EscapeScene to 릴리즈버전
+[33mab3bde4b[m HEAD@{11}: commit (merge): Merge remote-tracking branch 'origin/릴리즈버전' into EscapeScene
+[33m9655ab13[m[33m ([m[1;32mㄹㅇ호[m[33m)[m HEAD@{12}: checkout: moving from 그래픽작업 to EscapeScene
+[33m0b9aeaee[m[33m ([m[1;31morigin/그래픽작업[m[33m, [m[1;32m그래픽작업[m[33m)[m HEAD@{13}: checkout: moving from EscapeScene to 그래픽작업
+[33m9655ab13[m[33m ([m[1;32mㄹㅇ호[m[33m)[m HEAD@{14}: commit: 음성과 오디오
+[33m03ae7fee[m HEAD@{15}: commit: HotFix : animation
+[33mda39499d[m HEAD@{16}: commit: CreateMap
+[33m97813939[m HEAD@{17}: commit: 0730
+[33mf007ae98[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{18}: checkout: moving from main to EscapeScene
+[33mf007ae98[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{19}: clone: from https://github.com/Sanshin001/2023GMH.git

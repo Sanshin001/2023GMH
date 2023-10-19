@@ -8,7 +8,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/01_Scenes/EscapeScene.unity
     guid: 4f613bbe3c5f5a142b849b007192fb00
-  m_configObjects:
-    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 57ca477a908b9f140a8fe185e309a7ab, type: 2}
-    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 017c6235a26b0c04cb8d121fefd9ba87, type: 2}
-    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: da764b7314f41f24ea203e6f533f8580, type: 2}
+  m_configObjects: {}
