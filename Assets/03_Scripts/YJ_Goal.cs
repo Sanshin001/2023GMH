@@ -5,6 +5,9 @@ using UnityEngine;
 public class Goal : MonoBehaviour
 {
     [SerializeField]
+    GameObject _friend;
+    
+    [SerializeField]
     GameObject _bucket;
 
     [SerializeField]
@@ -14,6 +17,7 @@ public class Goal : MonoBehaviour
     {
         // particle in bucket all on
         _goal.SetActive(false);
+        _friend.SetActive(false);
         _bucket.SetActive(true);        
 
         // 3초 뒤 게임 선택 화면으로 이동
