@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: da976b1a4f7ebb949b0f71341e4f1821, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.6838662, g: 0.77618283, b: 0.8515383, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1403,7 +1403,8 @@ PrefabInstance:
       propertyPath: m_Materials.Array.size
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4636239176762039874, guid: acdb90624a404aa438447006f1026065, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2765,7 +2766,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4364354964670000252, guid: 3801a320e9ae1bf44a14efa194c86c3f, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -7278,6 +7280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bucket: {fileID: 855756816}
+  _goal: {fileID: 0}
 --- !u!1 &1167843423
 GameObject:
   m_ObjectHideFlags: 0
@@ -8729,6 +8732,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveTrigger: 0
+  _goalPanel: {fileID: 215898964}
 --- !u!114 &1320248654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13507,15 +13511,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4820350831546570957, guid: d0d80574824590d40b0e664c5f64d2c6, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.81849
+      value: 0.88355994
       objectReference: {fileID: 0}
     - target: {fileID: 4820350831546570957, guid: d0d80574824590d40b0e664c5f64d2c6, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.69449306
+      value: 0.74970526
       objectReference: {fileID: 0}
     - target: {fileID: 4820350831546570957, guid: d0d80574824590d40b0e664c5f64d2c6, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.2711123
+      value: 1.3721657
       objectReference: {fileID: 0}
     - target: {fileID: 4820350831546570957, guid: d0d80574824590d40b0e664c5f64d2c6, type: 3}
       propertyPath: m_LocalPosition.x

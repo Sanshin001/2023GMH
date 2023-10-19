@@ -23,6 +23,7 @@ public class UI_Dialog : UI_Base
         ImageArrow,
     }
 
+    [SerializeField]
     GameObject _goalPanel;
 
     private float typingSpeed = 0.1f;
@@ -55,8 +56,6 @@ public class UI_Dialog : UI_Base
         _storyManager.Init();
         _currentMessages = _storyManager._allMessageQueue.Peek();
         InitMessageBox();
-
-        _goalPanel = GameObject.Find("AlwaysGoal");
     }
 
     private void InitMessageBox()
