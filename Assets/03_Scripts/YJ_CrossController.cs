@@ -118,10 +118,8 @@ public class CrossController : MonoBehaviour
 
         // barrier 위치를 player 뒤로 조정
         GameObject ball = FindCrossObj((int)CrossOption.BallBucket);
-        if (ball.GetComponent<BallController>()._isVertical == false)
-            FindCrossObj((int)CrossOption.CrossBarriers).transform.position = _player.transform.position + Vector3.forward * 5;
-        else
-            FindCrossObj((int)CrossOption.CrossBarriers).transform.position = _player.transform.position + Vector3.forward * 5; // todo : 위치 조정
+        FindCrossObj((int)CrossOption.CrossBarriers).transform.position = _player.transform.position + Vector3.forward * 5;
+
 
         // 초기화 완료시 state 변경
         _crossState = CrossState.Playing;
@@ -174,6 +172,11 @@ public class CrossController : MonoBehaviour
             foreach (GameObject go in _redLightArrows)
                 go.SetActive(false);
 
+            // red off on
+            _crossCanvasParent.transform.GetChild(3).gameObject.SetActive(true);
+            // green off off
+            _crossCanvasParent.transform.GetChild(5).gameObject.SetActive(false);
+
             green.GetComponent<MeshRenderer>().material = _greenOnMt;
             red.GetComponent<MeshRenderer>().material = _redOffMt;
 
@@ -193,6 +196,11 @@ public class CrossController : MonoBehaviour
                 go.SetActive(false);
             foreach (GameObject go in _redLightArrows)
                 go.SetActive(true);
+
+            // red off off
+            _crossCanvasParent.transform.GetChild(3).gameObject.SetActive(false);
+            // green off on
+            _crossCanvasParent.transform.GetChild(5).gameObject.SetActive(true);
 
             green.GetComponent<MeshRenderer>().material = _greenOffMt;
             red.GetComponent<MeshRenderer>().material = _redOnMt;
