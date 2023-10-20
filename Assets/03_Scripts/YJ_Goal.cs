@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Goal : MonoBehaviour
 {
@@ -21,6 +22,11 @@ public class Goal : MonoBehaviour
         _bucket.SetActive(true);        
 
         // 3초 뒤 게임 선택 화면으로 이동
-        // Invoke(Function, 3f);
+        Invoke("onClickHome", 3f);
+    }
+
+    private void onClickHome()
+    {
+        SceneManager.LoadScene("MainScene");
     }
 }
