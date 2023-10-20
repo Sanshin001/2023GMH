@@ -9,6 +9,8 @@ TagManager:
   - RedLightArrow
   - GreenLightArrow
   - TargetCar
+  - Car
+  - goal
   layers:
   - Default
   - TransparentFX
