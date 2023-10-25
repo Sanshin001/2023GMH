@@ -70,7 +70,7 @@ public class CrossController : MonoBehaviour
         _friend = GameObject.Find("Friend");
         _player = GameObject.Find("Player");
         _playerCanvas = GameObject.Find("PlayerCanvas");
-        _crossCanvasParent = GameObject.Find("Player/PlayerCanvas/TrafficLightCanvas/TrafficLightInUI");
+        _crossCanvasParent = GameObject.Find("PlayerCanvas/TrafficLightCanvas/TrafficLightInUI");
         _crossOptions = GameObject.Find("CrossOptions");
 
         _greenLightArrows = new ArrayList();

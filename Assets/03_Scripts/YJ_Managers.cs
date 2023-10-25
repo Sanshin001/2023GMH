@@ -38,5 +38,12 @@ public class Managers : MonoBehaviour
         }
         // DontDestroyOnLoad(go);
         s_instance = go.GetComponent<Managers>();
+
+        Resources.UnloadUnusedAssets();
+    }
+
+    private void OnApplicationQuit()
+    {
+        Resources.UnloadUnusedAssets();
     }
 }

@@ -36,7 +36,7 @@ public class UI_Goal : UI_Base
     };
     Queue<string> _goalBox = new Queue<string>();
 
-    private void Start()
+    private void Awake()
     {
         Bind<CanvasGroup>(typeof(CanvasGroups));
         Bind<RectTransform>(typeof(RectTransforms));
