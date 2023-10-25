@@ -41,7 +41,8 @@ public class UI_StoryBoard
         _allMessageQueue.Enqueue(new string[] {
             "잘했어!",
             "이제 운전자도 우리가 보일거야.",
-            "건너기 전에 좌우를 먼저 살피자",
+            "눈 앞에 자동차가 있을 때는 항상 조심해야 해",
+            "아까처럼 좌우를 먼저 살피자",
         });
 
         _allMessageQueue.Enqueue(new string[]

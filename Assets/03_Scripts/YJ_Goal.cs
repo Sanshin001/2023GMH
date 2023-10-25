@@ -22,7 +22,7 @@ public class Goal : MonoBehaviour
         _bucket.SetActive(true);        
 
         // 3초 뒤 게임 선택 화면으로 이동
-        Invoke("onClickHome", 3f);
+        Invoke("onClickHome", 7f);
     }
 
     private void onClickHome()

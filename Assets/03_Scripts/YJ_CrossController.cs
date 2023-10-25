@@ -22,6 +22,7 @@ enum CrossOption        // 위치에 따라 변하는 것들만 정의함
     BallBucket,
     BallTargetBucket,
     TrafficLightBucket,
+    CrossClearBucket,
 }
 
 public class CrossController : MonoBehaviour
@@ -32,6 +33,7 @@ public class CrossController : MonoBehaviour
     GameObject _friend;
     GameObject _playerCanvas;
     GameObject _crossCanvasParent;
+    GameObject _clearObj;
 
     ArrayList _greenLightArrows;
     ArrayList _redLightArrows;
@@ -51,6 +53,10 @@ public class CrossController : MonoBehaviour
     Material _redOnMt;
     [SerializeField]
     Material _redOffMt;
+
+
+    [SerializeField]
+    GameObject _goalPanel;
 
     private void InitArrows(GameObject parent, ArrayList arrowList)
     {
@@ -290,12 +296,12 @@ public class CrossController : MonoBehaviour
         go.SetActive(false);
 
         // Panel로 표시
-        string title = "Clear!\n횡단보도를 무사히 건넜다!";
-        Util.FindChild<UI_Goal>(_playerCanvas, null, true).Init(title);
+        _clearObj = FindCrossObj((int)CrossOption.CrossClearBucket);
+        _clearObj.SetActive(true);
+        Invoke("DisappearGreat", 3.0f);
 
         // cross num 증가
         _crossNum++;
-        Debug.Log(_crossNum);
 
         // 뭔가 효과가 전부 끝나면 Rest 상태로 전환
         _crossState = CrossState.Rest;
@@ -304,6 +310,11 @@ public class CrossController : MonoBehaviour
     private void UpdateRest()
     {
         // doing nothing in this time
+    }
+
+    private void DisappearGreat()
+    {
+        _clearObj.SetActive(false);
     }
 }
 

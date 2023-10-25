@@ -28,7 +28,10 @@ public class PlayerCanvasController : ContinuousMoveProviderBase
 
     void LateUpdate()
     {
-        Vector3 playerPos = _player.transform.localPosition + _player.transform.forward;
+        if (_player.GetComponent<YJ_PlayerController>()._state == PlayerState.Select)
+            return;
+
+        Vector3 playerPos = _player.transform.localPosition + _player.transform.forward * 3f;
         transform.position = new Vector3(playerPos.x, transform.position.y, playerPos.z);
 
         if (ReadInput() != Vector2.zero)

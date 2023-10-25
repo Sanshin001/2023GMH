@@ -30,7 +30,7 @@ public class FriendController : MonoBehaviour
     bool _isFirstUI = true;
     bool _isLastUI = false;
 
-    FriendState _state = FriendState.Idle;
+    public FriendState _state = FriendState.Idle;
 
     GameObject _carEventObj;
 
