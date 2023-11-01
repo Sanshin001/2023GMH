@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Inputs;
 using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
-using static UnityEditor.Experimental.GraphView.GraphView;
+using UnityEditor.Experimental;
 
 public enum PlayerState
 {

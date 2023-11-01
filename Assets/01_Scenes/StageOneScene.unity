@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.6838662, g: 0.77618283, b: 0.8515383, a: 1}
+  m_IndirectSpecularColor: {r: 0.42535546, g: 0.56424266, b: 0.6948979, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4098,7 +4098,7 @@ Camera:
     height: 1
   near clip plane: 0.01
   far clip plane: 1000
-  field of view: 60
+  field of view: 35
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -8871,7 +8871,7 @@ MonoBehaviour:
   m_OriginBaseGameObject: {fileID: 1133526858}
   m_CameraFloorOffsetObject: {fileID: 1436227201}
   m_RequestedTrackingOriginMode: 0
-  m_CameraYOffset: 1
+  m_CameraYOffset: 0.5
 --- !u!4 &1133526861
 Transform:
   m_ObjectHideFlags: 0
@@ -8914,7 +8914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af6bf904e410ee8479f9093d8830d1f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_LocomotionProvider: {fileID: 0}
+  m_LocomotionProvider: {fileID: 1133526866}
   m_MinHeight: 0
   m_MaxHeight: Infinity
 --- !u!143 &1133526865
@@ -11531,8 +11531,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.1176, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 414095874}
   - {fileID: 1518769269}
